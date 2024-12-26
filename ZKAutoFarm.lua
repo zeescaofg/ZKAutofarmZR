@@ -3,6 +3,8 @@ local Player = game:GetService("Players").LocalPlayer
 
 local function getNearest()
     local nearest, dist = nil, 99999
+
+    -- Check zombies in the "Zombie Storage" folder
     for _, v in pairs(game.Workspace:FindFirstChild("Zombie Storage"):GetChildren()) do
         if v:FindFirstChild("Head") then
             local m = (Player.Character.Head.Position - v.Head.Position).magnitude
@@ -12,6 +14,18 @@ local function getNearest()
             end
         end
     end
+
+    -- Check for BasePlayerZombie directly in the Workspace
+    for _, v in pairs(game.Workspace:GetChildren()) do
+        if v.Name == "BasePlayerZombie" and v:FindFirstChild("Head") then
+            local m = (Player.Character.Head.Position - v.Head.Position).magnitude
+            if m < dist then
+                dist = m
+                nearest = v
+            end
+        end
+    end
+
     return nearest
 end
 
